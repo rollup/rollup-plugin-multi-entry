@@ -1,0 +1,37 @@
+{
+  "name": "rollup-plugin-multi-entry",
+  "version": "1.0.0",
+  "description": "Allows specifying multiple entry points with rollup.",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "pretest": "npm run build",
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eventualbuddha/rollup-plugin-multi-entry.git"
+  },
+  "keywords": [
+    "rollup-plugin"
+  ],
+  "files": [
+    "dist"
+  ],
+  "author": "Brian Donovan <me@brian-donovan.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eventualbuddha/rollup-plugin-multi-entry/issues"
+  },
+  "homepage": "https://github.com/eventualbuddha/rollup-plugin-multi-entry#readme",
+  "dependencies": {
+    "glob": "^6.0.1"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-flow-strip-types": "^6.1.18",
+    "babel-preset-es2015-rollup": "^1.0.0",
+    "mocha": "^2.3.4",
+    "rollup": "^0.21.1",
+    "rollup-plugin-babel": "^2.2.0"
+  }
+}
