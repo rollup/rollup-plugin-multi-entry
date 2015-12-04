@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rollup -c",
     "pretest": "npm run build",
-    "test": "mocha test.js"
+    "test": "mocha test.js",
+    "prepublish": "npm test"
   },
   "repository": {
     "type": "git",
