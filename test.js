@@ -23,7 +23,7 @@ describe('rollup-plugin-multi-entry', () => {
       plugins: [multiEntry('test/fixtures/0.js')]
     }).then(bundle => {
       includes(bundle.generate({ format: 'cjs' }).code, 'exports.zero = zero;');
-    })
+    });
   });
 
   it('takes an array of files as input', () => {
@@ -34,7 +34,7 @@ describe('rollup-plugin-multi-entry', () => {
       const code = bundle.generate({ format: 'cjs' }).code;
       includes(code, 'exports.zero = zero;');
       includes(code, 'exports.one = one;');
-    })
+    });
   });
 
   it('allows an empty array as input', () => {
@@ -44,7 +44,7 @@ describe('rollup-plugin-multi-entry', () => {
     }).then(bundle => {
       const code = bundle.generate({ format: 'cjs' }).code;
       doesNotInclude(code, 'exports');
-    })
+    });
   });
 
   it('takes a glob as input', () => {
@@ -55,7 +55,7 @@ describe('rollup-plugin-multi-entry', () => {
       const code = bundle.generate({ format: 'cjs' }).code;
       includes(code, 'exports.zero = zero;');
       includes(code, 'exports.one = one;');
-    })
+    });
   });
 
   it('takes an array of globs as input', () => {
@@ -66,7 +66,7 @@ describe('rollup-plugin-multi-entry', () => {
       const code = bundle.generate({ format: 'cjs' }).code;
       includes(code, 'exports.zero = zero;');
       includes(code, 'exports.one = one;');
-    })
+    });
   });
 
   it('takes an {include,exclude} object as input', () => {
@@ -77,6 +77,6 @@ describe('rollup-plugin-multi-entry', () => {
       const code = bundle.generate({ format: 'cjs' }).code;
       includes(code, 'exports.zero = zero;');
       doesNotInclude(code, 'exports.one = one;');
-    })
+    });
   });
 });
