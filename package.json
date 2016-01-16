@@ -27,13 +27,13 @@
   },
   "homepage": "https://github.com/eventualbuddha/rollup-plugin-multi-entry#readme",
   "dependencies": {
-    "glob": "^6.0.1"
+    "glob": "^6.0.4"
   },
   "devDependencies": {
-    "babel-plugin-transform-flow-strip-types": "^6.1.18",
-    "babel-preset-es2015-rollup": "^1.0.0",
+    "babel-plugin-transform-flow-strip-types": "^6.4.0",
+    "babel-preset-es2015-rollup": "^1.1.1",
     "mocha": "^2.3.4",
-    "rollup": "^0.21.1",
-    "rollup-plugin-babel": "^2.2.0"
+    "rollup": "^0.24.1",
+    "rollup-plugin-babel": "^2.3.9"
   }
 }
