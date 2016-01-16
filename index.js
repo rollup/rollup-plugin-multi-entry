@@ -4,26 +4,39 @@ import glob from 'glob';
 
 export const entry = 'rollup-plugin-multi-entry:entry-point';
 
-export default function multiEntry(config: Config) {
+export default function multiEntry(config: ?Config=null) {
   let include = [];
   let exclude = [];
 
-  if (typeof config === 'string') {
-    include = [config];
-  } else if (Array.isArray(config)) {
-    include = config;
-  } else {
-    ({ include, exclude } = config);
+  function configure(config: Config) {
+    if (typeof config === 'string') {
+      include = [config];
+    } else if (Array.isArray(config)) {
+      include = config;
+    } else {
+      ({ include, exclude } = config);
+    }
+  }
+
+  if (config) {
+    configure(config);
   }
 
   return {
-    resolveId(id) {
+    options(options: {entry: string}) {
+      if (options.entry && options.entry !== entry) {
+        configure(options.entry);
+      }
+      options.entry = entry;
+    },
+
+    resolveId(id: string): ?string {
       if (id === entry) {
         return entry;
       }
     },
 
-    load(id) {
+    load(id: string): ?Promise {
       if (id === entry) {
         return Promise.all(
           [matchPaths(include), matchPaths(exclude)]

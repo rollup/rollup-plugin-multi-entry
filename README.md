@@ -29,27 +29,50 @@ $ npm install [--save-dev] rollup-plugin-multi-entry
 In `rollup.config.js`:
 
 ```js
-import multiEntry, { entry } from 'rollup-plugin-multi-entry';
+import multiEntry from 'rollup-plugin-multi-entry';
 
 export default {
-  entry,
-  plugins: [multiEntry('test/**/*.js')]
+  entry: 'test/**/*.js',
+  plugins: [multiEntry()]
 };
 ```
 
-The `multiEntry` call above is the simplest form which simply takes a glob
-string. If you wish, you may pass an array of glob strings or, for finer
-control, an object with `include` and `exclude` properties each taking an array
-of glob strings, e.g.
+The `entry` above is the simplest form which simply takes a glob string. If you
+wish, you may pass an array of glob strings or, for finer control, an object
+with `include` and `exclude` properties each taking an array of glob strings,
+e.g.
 
 ```js
-multiEntry('just/one/file.js');
-multiEntry('a/glob/of/files/**/*.js');
-multiEntry(['an/array.js', 'of/files.js', 'or/globs/**/*.js']);
-multiEntry({
-  include: ['files.js', 'and/globs/**/*.js', 'to/include.js'],
-  exclude: ['those/files.js', 'and/globs/*.to.be.excluded.js']
-});
+// The usual rollup entry configuration works.
+export default {
+  entry: 'just/one/file.js',
+  plugins: [multiEntry()]
+  // ...
+};
+
+// As does a glob of files.
+export default {
+  entry: 'a/glob/of/files/**/*.js',
+  plugins: [multiEntry()]
+  // ...
+};
+
+// Or an array of files and globs.
+export default {
+  entry: ['an/array.js', 'of/files.js', 'or/globs/**/*.js'],
+  plugins: [multiEntry()]
+  // ...
+};
+
+// For maximum control, arrays of globs to include and exclude.
+export default {
+  entry: {
+    include: ['files.js', 'and/globs/**/*.js', 'to/include.js'],
+    exclude: ['those/files.js', 'and/globs/*.to.be.excluded.js']
+  },
+  plugins: [multiEntry()]
+  // ...
+};
 ```
 
 ## License
