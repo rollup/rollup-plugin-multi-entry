@@ -2,7 +2,7 @@ type Config = string | Array<string> | { include: Array<string>, exclude: Array<
 
 import glob from 'glob';
 
-export const entry = 'rollup-plugin-multi-entry:entry-point';
+export const entry = '\0rollup-plugin-multi-entry:entry-point';
 
 export default function multiEntry(config: ?Config=null) {
   let include = [];
