@@ -5,7 +5,7 @@
   "main": "dist/rollup-plugin-multi-entry.cjs.js",
   "jsnext:main": "dist/rollup-plugin-multi-entry.es6.js",
   "scripts": {
-    "build": "rm -rf dist && rollup -c rollup.cjs.config.js && rollup -c rollup.es6.config.js",
+    "build": "rm -rf dist && rollup -c",
     "pretest": "npm run build",
     "test": "mocha test.js",
     "prepublish": "npm test"
