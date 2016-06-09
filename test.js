@@ -1,5 +1,6 @@
 const rollup = require('rollup').rollup;
-const multiEntryPlugin = require('.');
+const createFilter = require('rollup-pluginutils').createFilter;
+const multiEntryPlugin = require('./');
 const multiEntry = multiEntryPlugin.default;
 const entry = multiEntryPlugin.entry;
 const ok = require('assert').ok;
@@ -81,5 +82,22 @@ describe('rollup-plugin-multi-entry', () => {
 
   describe('with old API', () => {
     setupTests({ useOldAPI: true });
+  });
+
+  it('skipped by filter util', () => {
+    const filter = createFilter(null, entry);
+    return rollup({
+      entry: 'test/fixtures/*.js',
+      plugins: [
+        multiEntry(),
+        {
+          transform(code, id) {
+            if (id === entry) {
+              ok(!filter(id));
+            }
+          }
+        }
+      ]
+    });
   });
 });
