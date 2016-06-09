@@ -7,12 +7,12 @@ export default {
     {
       format: 'cjs',
       exports: 'named',
-      dest: 'dist/rollup-plugin-multi-entry.cjs.js'
+      dest: 'dist/rollup-plugin-multi-entry.js'
     },
     {
       format: 'es6',
       exports: 'named',
-      dest: 'dist/rollup-plugin-multi-entry.es6.js'
+      dest: 'dist/rollup-plugin-multi-entry.mjs'
     }
   ]
 };

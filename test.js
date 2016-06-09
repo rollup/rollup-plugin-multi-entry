@@ -1,5 +1,5 @@
 const rollup = require('rollup').rollup;
-const multiEntryPlugin = require('./dist/rollup-plugin-multi-entry.cjs');
+const multiEntryPlugin = require('.');
 const multiEntry = multiEntryPlugin.default;
 const entry = multiEntryPlugin.entry;
 const ok = require('assert').ok;

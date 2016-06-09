@@ -2,8 +2,8 @@
   "name": "rollup-plugin-multi-entry",
   "version": "1.2.0",
   "description": "Allows specifying multiple entry points with rollup.",
-  "main": "dist/rollup-plugin-multi-entry.cjs.js",
-  "jsnext:main": "dist/rollup-plugin-multi-entry.es6.js",
+  "main": "dist/rollup-plugin-multi-entry.js",
+  "jsnext:main": "dist/rollup-plugin-multi-entry.mjs",
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "pretest": "npm run build",
