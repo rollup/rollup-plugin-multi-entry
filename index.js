@@ -7,6 +7,7 @@ export const entry = '\0rollup-plugin-multi-entry:entry-point';
 export default function multiEntry(config: ?Config=null) {
   let include = [];
   let exclude = [];
+  let exporter = path => `export * from ${JSON.stringify(path)};`;
 
   function configure(config: Config) {
     if (typeof config === 'string') {
@@ -14,7 +15,10 @@ export default function multiEntry(config: ?Config=null) {
     } else if (Array.isArray(config)) {
       include = config;
     } else {
-      ({ include, exclude } = config);
+      ({ include = [], exclude = [] } = config);
+      if (config.exports === false) {
+        exporter = path => `import ${JSON.stringify(path)};`;
+      }
     }
   }
 
@@ -43,7 +47,7 @@ export default function multiEntry(config: ?Config=null) {
         ).then(([includePaths, excludePaths]) => {
           return includePaths.filter(path => excludePaths.indexOf(path) < 0);
         }).then(paths => {
-          return paths.map(path => `export * from ${JSON.stringify(path)};`).join('\n');
+          return paths.map(exporter).join('\n');
         });
       }
     }
