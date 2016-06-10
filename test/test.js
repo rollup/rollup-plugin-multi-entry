@@ -72,6 +72,18 @@ function setupTests(options) {
       doesNotInclude(code, 'exports.one = one;');
     })
   );
+
+  it('allows to prevent exporting', () =>
+    makeBundle(
+      { include: ['test/fixtures/*.js'], exports: false },
+      useOldAPI
+    ).then(bundle => {
+      const code = bundle.generate({ format: 'iife' }).code;
+      includes(code, `console.log('Hello, 2');`)
+      doesNotInclude(code, 'zero');
+      doesNotInclude(code, 'one');
+    })
+  );
 }
 
 describe('rollup-plugin-multi-entry', () => {
