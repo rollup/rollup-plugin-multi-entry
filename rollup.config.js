@@ -1,19 +1,20 @@
 import babel from 'rollup-plugin-babel';
 import babelrc from 'babelrc-rollup';
 
+var pkg = require('./package.json');
+
 export default {
   entry: 'index.js',
   plugins: [babel(babelrc())],
+  external: Object.keys(pkg['dependencies']),
   targets: [
     {
       format: 'cjs',
-      exports: 'named',
-      dest: 'dist/rollup-plugin-multi-entry.js'
+      dest: pkg['main']
     },
     {
-      format: 'es6',
-      exports: 'named',
-      dest: 'dist/rollup-plugin-multi-entry.mjs'
+      format: 'es',
+      dest: pkg['jsnext:main']
     }
   ]
 };
