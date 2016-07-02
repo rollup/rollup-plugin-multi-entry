@@ -75,6 +75,16 @@ export default {
 };
 ```
 
+Sometimes you may not want to export anything from the rolled-up bundle. In
+such cases, use the `exports: false` option like so:
+
+```js
+export default {
+  entry: 'src/*.js',
+  plugins: [multiEntry({ exports: false })]
+};
+```
+
 ## License
 
 MIT
