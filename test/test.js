@@ -1,4 +1,4 @@
-import multiEntry, { entry } from '../';
+import multiEntry from '../';
 import { ok } from 'assert';
 import { rollup } from 'rollup';
 
@@ -14,25 +14,19 @@ function doesNotInclude(string, substring) {
   }
 }
 
-function makeBundle(entries, useOldAPI) {
-  return rollup(
-      !useOldAPI ?
-      { entry: entries, plugins: [multiEntry()] } :
-      { entry, plugins: [multiEntry(entries)] }
-  );
+function makeBundle(entries) {
+  return rollup({ entry: entries, plugins: [multiEntry()] });
 }
 
-function setupTests(options) {
-  const useOldAPI = options ? options.useOldAPI : false;
-
+describe('rollup-plugin-multi-entry', () => {
   it('takes a single file as input', () =>
-    makeBundle('test/fixtures/0.js', useOldAPI).then(bundle => {
+    makeBundle('test/fixtures/0.js').then(bundle => {
       includes(bundle.generate({ format: 'cjs' }).code, 'exports.zero = zero;');
     })
   );
 
   it('takes an array of files as input', () =>
-    makeBundle(['test/fixtures/0.js', 'test/fixtures/1.js'], useOldAPI).then(bundle => {
+    makeBundle(['test/fixtures/0.js', 'test/fixtures/1.js']).then(bundle => {
       const code = bundle.generate({ format: 'cjs' }).code;
       includes(code, 'exports.zero = zero;');
       includes(code, 'exports.one = one;');
@@ -40,14 +34,14 @@ function setupTests(options) {
   );
 
   it('allows an empty array as input', () =>
-    makeBundle([], useOldAPI).then(bundle => {
+    makeBundle([]).then(bundle => {
       const code = bundle.generate({ format: 'cjs' }).code;
       doesNotInclude(code, 'exports');
     })
   );
 
   it('takes a glob as input', () =>
-    makeBundle('test/fixtures/{0,1}.js', useOldAPI).then(bundle => {
+    makeBundle('test/fixtures/{0,1}.js').then(bundle => {
       const code = bundle.generate({ format: 'cjs' }).code;
       includes(code, 'exports.zero = zero;');
       includes(code, 'exports.one = one;');
@@ -55,7 +49,7 @@ function setupTests(options) {
   );
 
   it('takes an array of globs as input', () =>
-    makeBundle(['test/fixtures/{0,}.js', 'test/fixtures/{1,}.js'], useOldAPI).then(bundle => {
+    makeBundle(['test/fixtures/{0,}.js', 'test/fixtures/{1,}.js']).then(bundle => {
       const code = bundle.generate({ format: 'cjs' }).code;
       includes(code, 'exports.zero = zero;');
       includes(code, 'exports.one = one;');
@@ -64,8 +58,7 @@ function setupTests(options) {
 
   it('takes an {include,exclude} object as input', () =>
     makeBundle(
-      { include: ['test/fixtures/*.js'], exclude: ['test/fixtures/1.js'] },
-      useOldAPI
+      { include: ['test/fixtures/*.js'], exclude: ['test/fixtures/1.js'] }
     ).then(bundle => {
       const code = bundle.generate({ format: 'cjs' }).code;
       includes(code, 'exports.zero = zero;');
@@ -75,8 +68,7 @@ function setupTests(options) {
 
   it('allows to prevent exporting', () =>
     makeBundle(
-      { include: ['test/fixtures/*.js'], exports: false },
-      useOldAPI
+      { include: ['test/fixtures/*.js'], exports: false }
     ).then(bundle => {
       const code = bundle.generate({ format: 'iife' }).code;
       includes(code, `console.log('Hello, 2');`)
@@ -84,12 +76,4 @@ function setupTests(options) {
       doesNotInclude(code, 'one');
     })
   );
-}
-
-describe('rollup-plugin-multi-entry', () => {
-  setupTests({ useOldAPI: false });
-
-  describe('with old API', () => {
-    setupTests({ useOldAPI: true });
-  });
 });

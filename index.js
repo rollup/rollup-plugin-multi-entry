@@ -1,8 +1,10 @@
-type Config = string | Array<string> | { include: Array<string>, exclude: Array<string> };
+/* @flow */
+
+type Config = string | Array<string> | { include?: Array<string>, exclude?: Array<string>, exports?: boolean };
 
 import glob from 'glob';
 
-export const entry = '\0rollup-plugin-multi-entry:entry-point';
+const entry = '\0rollup-plugin-multi-entry:entry-point';
 
 export default function multiEntry(config: ?Config=null) {
   let include = [];
@@ -15,7 +17,8 @@ export default function multiEntry(config: ?Config=null) {
     } else if (Array.isArray(config)) {
       include = config;
     } else {
-      ({ include = [], exclude = [] } = config);
+      include = config.include || [];
+      exclude = config.exclude || [];
       if (config.exports === false) {
         exporter = path => `import ${JSON.stringify(path)};`;
       }
@@ -27,7 +30,7 @@ export default function multiEntry(config: ?Config=null) {
   }
 
   return {
-    options(options: {entry: string}) {
+    options(options: { entry: ?string }) {
       if (options.entry && options.entry !== entry) {
         configure(options.entry);
       }
