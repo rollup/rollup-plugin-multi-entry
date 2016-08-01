@@ -44,7 +44,7 @@ export default function multiEntry(config: ?Config=null) {
       }
     },
 
-    load(id: string): ?Promise {
+    load(id: string): ?Promise<string> {
       if (id === entry) {
         if (!include.length) {
           return Promise.resolve('');
