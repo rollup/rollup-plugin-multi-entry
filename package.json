@@ -37,9 +37,9 @@
     "babel-preset-es2015-rollup": "^1.1.1",
     "babel-register": "^6.9.0",
     "babelrc-rollup": "^1.1.0",
-    "flow-bin": "^0.27.0",
+    "flow-bin": "^0.30.0",
     "mocha": "^3.0.0",
-    "rollup": "^0.33.0",
+    "rollup": "^0.34.3",
     "rollup-plugin-babel": "^2.6.1",
     "semantic-release": "^4.3.5"
   }
