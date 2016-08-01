@@ -3,13 +3,13 @@ import { ok } from 'assert';
 import { rollup } from 'rollup';
 
 function includes(string, substring) {
-  if (string.indexOf(substring) < 0) {
+  if (string.indexOf(substring) === -1) {
     ok(false, `expected ${JSON.stringify(string)} to include ${JSON.stringify(substring)}`);
   }
 }
 
 function doesNotInclude(string, substring) {
-  if (string.indexOf(substring) >= 0) {
+  if (string.indexOf(substring) !== -1) {
     ok(false, `expected ${JSON.stringify(string)} not to include ${JSON.stringify(substring)}`);
   }
 }
@@ -21,7 +21,8 @@ function makeBundle(entries) {
 describe('rollup-plugin-multi-entry', () => {
   it('takes a single file as input', () =>
     makeBundle('test/fixtures/0.js').then(bundle => {
-      includes(bundle.generate({ format: 'cjs' }).code, 'exports.zero = zero;');
+      const code = bundle.generate({ format: 'cjs' }).code;
+      includes(code, 'exports.zero = zero;');
     })
   );
 

@@ -2,7 +2,8 @@
 
 type Config = string | Array<string> | { include?: Array<string>, exclude?: Array<string>, exports?: boolean };
 
-import glob from 'glob';
+import { resolve } from 'path';
+import { promise as matched } from 'matched';
 
 const entry = '\0rollup-plugin-multi-entry:entry-point';
 
@@ -45,30 +46,16 @@ export default function multiEntry(config: ?Config=null) {
 
     load(id: string): ?Promise {
       if (id === entry) {
-        return Promise.all(
-          [matchPaths(include), matchPaths(exclude)]
-        ).then(([includePaths, excludePaths]) => {
-          return includePaths.filter(path => excludePaths.indexOf(path) < 0);
+        if (!include.length) {
+          return Promise.resolve('');
+        }
+        const patterns = include.concat(exclude.map(pattern => '!' + pattern));
+        return matched(patterns, { realpath: true }).then(paths => {
+          return paths.map(path => resolve(path));
         }).then(paths => {
           return paths.map(exporter).join('\n');
         });
       }
     }
   }
-}
-
-function matchPaths(patterns: Array<string>): Promise<Array<string>> {
-  return Promise.all(
-    patterns.map(pattern => new Promise(
-      (resolve, reject) => glob(pattern, { realpath: true }, (err, files) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(files);
-        }
-      })
-    ))
-  ).then(
-    lists => lists.reduce((result, list) => result.concat(list), [])
-  );
 }
