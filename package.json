@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/rollup/rollup-plugin-multi-entry#readme",
   "dependencies": {
-    "glob": "^7.0.5"
+    "matched": "^0.4.3"
   },
   "devDependencies": {
     "babel-plugin-transform-flow-strip-types": "^6.8.0",
@@ -37,7 +37,7 @@
     "babel-register": "^6.9.0",
     "babelrc-rollup": "^1.1.0",
     "flow-bin": "^0.27.0",
-    "mocha": "^2.5.3",
+    "mocha": "^3.0.0",
     "rollup": "^0.33.0",
     "rollup-plugin-babel": "^2.6.1",
     "semantic-release": "^4.3.5"

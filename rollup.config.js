@@ -6,7 +6,7 @@ var pkg = require('./package.json');
 export default {
   entry: 'index.js',
   plugins: [babel(babelrc())],
-  external: Object.keys(pkg['dependencies']),
+  external: Object.keys(pkg['dependencies']).concat('path'),
   targets: [
     {
       format: 'cjs',
