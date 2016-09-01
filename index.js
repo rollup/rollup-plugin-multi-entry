@@ -2,7 +2,6 @@
 
 type Config = string | Array<string> | { include?: Array<string>, exclude?: Array<string>, exports?: boolean };
 
-import { resolve } from 'path';
 import { promise as matched } from 'matched';
 
 const entry = '\0rollup-plugin-multi-entry:entry-point';
