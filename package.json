@@ -29,17 +29,17 @@
   },
   "homepage": "https://github.com/rollup/rollup-plugin-multi-entry#readme",
   "dependencies": {
-    "matched": "^0.4.3"
+    "matched": "^0.4.4"
   },
   "devDependencies": {
-    "babel-plugin-transform-flow-strip-types": "^6.8.0",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-es2015-rollup": "^1.1.1",
-    "babel-register": "^6.9.0",
-    "babelrc-rollup": "^1.1.0",
-    "flow-bin": "^0.30.0",
-    "mocha": "^3.0.0",
-    "rollup": "^0.34.3",
+    "babel-plugin-transform-flow-strip-types": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-es2015-rollup": "^1.2.0",
+    "babel-register": "^6.14.0",
+    "babelrc-rollup": "^3.0.0",
+    "flow-bin": "^0.31.1",
+    "mocha": "^3.0.2",
+    "rollup": "^0.34.12",
     "rollup-plugin-babel": "^2.6.1",
     "semantic-release": "^4.3.5"
   }
