@@ -13,7 +13,7 @@ export default function multiEntry(config: ?Config=null) {
 
   function configure(config: Config) {
     if (typeof config === 'string') {
-      include = [config];
+      include = config.split(";");
     } else if (Array.isArray(config)) {
       include = config;
     } else {
