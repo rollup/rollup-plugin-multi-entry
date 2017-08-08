@@ -35,6 +35,18 @@ export default function multiEntry(config: ?Config=null) {
         configure(options.entry);
       }
       options.entry = entry;
+      if(options.external) {
+        const external = options.external;
+        options.external = (id) => {
+          if(id === entry) {
+            return false;
+          } else if(typeof external === 'function') {
+				    return external(id);
+          }	else if(external instanceof Array) {
+				    return external.indexOf(id) !== -1
+		      }
+	      };
+      }
     },
 
     resolveId(id: string): ?string {
