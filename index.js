@@ -30,7 +30,7 @@ export default function multiEntry(config: ?Config=null) {
   }
 
   return {
-    options(options: { entry: ?string }) {
+    options(options: { entry: ?string, external: any }) {
       if (options.entry && options.entry !== entry) {
         configure(options.entry);
       }
@@ -41,9 +41,9 @@ export default function multiEntry(config: ?Config=null) {
           if(id === entry) {
             return false;
           } else if(typeof external === 'function') {
-				    return external(id);
+            return external(id);
           }	else if(external instanceof Array) {
-				    return external.indexOf(id) !== -1
+            return external.indexOf(id) !== -1
 		      }
 	      };
       }

@@ -14,46 +14,53 @@ function doesNotInclude(string, substring) {
   }
 }
 
-function makeBundle(entries) {
-  return rollup({ entry: entries, plugins: [multiEntry()] });
+function makeBundle(entries, options) {
+  let config = { entry: entries, plugins: [multiEntry()] };
+  Object.assign(config, options);
+  return rollup(config);
 }
 
 describe('rollup-plugin-multi-entry', () => {
   it('takes a single file as input', () =>
     makeBundle('test/fixtures/0.js').then(bundle => {
-      const code = bundle.generate({ format: 'cjs' }).code;
-      includes(code, 'exports.zero = zero;');
+      return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+			  includes(code, 'exports.zero = zero;');
+			});
     })
   );
 
   it('takes an array of files as input', () =>
     makeBundle(['test/fixtures/0.js', 'test/fixtures/1.js']).then(bundle => {
-      const code = bundle.generate({ format: 'cjs' }).code;
-      includes(code, 'exports.zero = zero;');
-      includes(code, 'exports.one = one;');
+			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+        includes(code, 'exports.zero = zero;');
+				includes(code, 'exports.one = one;');
+			});
     })
   );
 
   it('allows an empty array as input', () =>
     makeBundle([]).then(bundle => {
-      const code = bundle.generate({ format: 'cjs' }).code;
-      doesNotInclude(code, 'exports');
+			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+				doesNotInclude(code, 'exports');
+			});
     })
   );
 
   it('takes a glob as input', () =>
     makeBundle('test/fixtures/{0,1}.js').then(bundle => {
-      const code = bundle.generate({ format: 'cjs' }).code;
-      includes(code, 'exports.zero = zero;');
-      includes(code, 'exports.one = one;');
+			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+        includes(code, 'exports.zero = zero;');
+				includes(code, 'exports.one = one;');
+			});
     })
   );
 
   it('takes an array of globs as input', () =>
     makeBundle(['test/fixtures/{0,}.js', 'test/fixtures/{1,}.js']).then(bundle => {
-      const code = bundle.generate({ format: 'cjs' }).code;
-      includes(code, 'exports.zero = zero;');
-      includes(code, 'exports.one = one;');
+			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+        includes(code, 'exports.zero = zero;');
+				includes(code, 'exports.one = one;');
+			});
     })
   );
 
@@ -61,9 +68,10 @@ describe('rollup-plugin-multi-entry', () => {
     makeBundle(
       { include: ['test/fixtures/*.js'], exclude: ['test/fixtures/1.js'] }
     ).then(bundle => {
-      const code = bundle.generate({ format: 'cjs' }).code;
-      includes(code, 'exports.zero = zero;');
-      doesNotInclude(code, 'exports.one = one;');
+			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+        includes(code, 'exports.zero = zero;');
+				doesNotInclude(code, 'exports.one = one;');
+			});
     })
   );
 
@@ -71,10 +79,39 @@ describe('rollup-plugin-multi-entry', () => {
     makeBundle(
       { include: ['test/fixtures/*.js'], exports: false }
     ).then(bundle => {
-      const code = bundle.generate({ format: 'iife' }).code;
-      includes(code, `console.log('Hello, 2');`)
-      doesNotInclude(code, 'zero');
-      doesNotInclude(code, 'one');
+			return bundle.generate({ format: 'iife' }).then(({ code }) => {
+        includes(code, `console.log('Hello, 2');`)
+        doesNotInclude(code, 'zero');
+				doesNotInclude(code, 'one');
+			});
     })
   );
+
+  it('overrides external option as function (fix issue #20)', () =>
+	  makeBundle(['test/externalTest/0.js', 'test/externalTest/1.js'], {
+		  external: id => !(/externalTest/.test(id)),
+		  onwarn: (warning) => {
+				throw new Error('This test must not throw warning : ' + warning.message);
+      }
+	  }).then(bundle => {
+			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+			  includes(code, 'require(\'external\')');
+				includes(code, 'const one = external;');
+			});
+	  })
+	);
+	
+	it('overrides external option as array (fix issue #20)', () =>
+		makeBundle(['test/externalTest/0.js', 'test/externalTest/1.js'], {
+			external: ['external'],
+			onwarn: (warning) => {
+				throw new Error('This test must not throw warning : ' + warning.message);
+			}
+		}).then(bundle => {
+			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+			  includes(code, 'require(\'external\')');
+				includes(code, 'const one = external;');
+			});
+		})
+	);
 });
