@@ -30,11 +30,11 @@ export default function multiEntry(config: ?Config=null) {
   }
 
   return {
-    options(options: { entry: ?string }) {
-      if (options.entry && options.entry !== entry) {
-        configure(options.entry);
+    options(options: { input: ?string }) {
+      if (options.input && options.input !== entry) {
+        configure(options.input);
       }
-      options.entry = entry;
+      options.input = entry;
     },
 
     resolveId(id: string): ?string {
