@@ -32,7 +32,7 @@ This plugin requires at least v0.25.4 of rollup. In `rollup.config.js`:
 import multiEntry from 'rollup-plugin-multi-entry';
 
 export default {
-  entry: 'test/**/*.js',
+  input: 'test/**/*.js',
   plugins: [multiEntry()]
 };
 ```
@@ -45,28 +45,28 @@ e.g.
 ```js
 // The usual rollup entry configuration works.
 export default {
-  entry: 'just/one/file.js',
+  input: 'just/one/file.js',
   plugins: [multiEntry()]
   // ...
 };
 
 // As does a glob of files.
 export default {
-  entry: 'a/glob/of/files/**/*.js',
+  input: 'a/glob/of/files/**/*.js',
   plugins: [multiEntry()]
   // ...
 };
 
 // Or an array of files and globs.
 export default {
-  entry: ['an/array.js', 'of/files.js', 'or/globs/**/*.js'],
+  input: ['an/array.js', 'of/files.js', 'or/globs/**/*.js'],
   plugins: [multiEntry()]
   // ...
 };
 
 // For maximum control, arrays of globs to include and exclude.
 export default {
-  entry: {
+  input: {
     include: ['files.js', 'and/globs/**/*.js', 'to/include.js'],
     exclude: ['those/files.js', 'and/globs/*.to.be.excluded.js']
   },
@@ -80,7 +80,7 @@ such cases, use the `exports: false` option like so:
 
 ```js
 export default {
-  entry: 'src/*.js',
+  input: 'src/*.js',
   plugins: [multiEntry({ exports: false })]
 };
 ```
