@@ -28,6 +28,9 @@
   "dependencies": {
     "matched": "^0.4.4"
   },
+  "peerDependencies": {
+    "rollup": ">=0.48.0"
+  },
   "devDependencies": {
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
     "babel-preset-es2015": "^6.14.0",
@@ -36,7 +39,7 @@
     "babelrc-rollup": "^3.0.0",
     "flow-bin": "^0.31.1",
     "mocha": "^3.0.2",
-    "rollup": "^0.34.12",
+    "rollup": "^0.49.2",
     "rollup-plugin-babel": "^2.6.1",
     "semantic-release": "^4.3.5"
   }

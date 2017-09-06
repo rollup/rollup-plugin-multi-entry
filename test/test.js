@@ -15,7 +15,7 @@ function doesNotInclude(string, substring) {
 }
 
 function makeBundle(entries) {
-  return rollup({ entry: entries, plugins: [multiEntry()] });
+  return rollup({ input: entries, plugins: [multiEntry()] });
 }
 
 describe('rollup-plugin-multi-entry', () => {
