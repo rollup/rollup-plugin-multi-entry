@@ -15,80 +15,80 @@ function doesNotInclude(string, substring) {
 }
 
 function makeBundle(entries, options) {
-  let config = { entry: entries, plugins: [multiEntry()] };
+  let config = { input: entries, plugins: [multiEntry()] };
   Object.assign(config, options);
   return rollup(config);
 }
 
 describe('rollup-plugin-multi-entry', () => {
-  it('takes a single file as input', () =>
-    makeBundle('test/fixtures/0.js').then(bundle => {
-      return bundle.generate({ format: 'cjs' }).then(({ code }) => {
-			  includes(code, 'exports.zero = zero;');
-			});
-    })
-  );
-
-  it('takes an array of files as input', () =>
-    makeBundle(['test/fixtures/0.js', 'test/fixtures/1.js']).then(bundle => {
-			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+  it('takes a single file as input', () => {
+    return makeBundle('test/fixtures/0.js').then(bundle => {
+      return bundle.generate({ format: 'cjs' }).then(({code}) => {
         includes(code, 'exports.zero = zero;');
-				includes(code, 'exports.one = one;');
-			});
+      });
     })
-  );
+  });
 
-  it('allows an empty array as input', () =>
-    makeBundle([]).then(bundle => {
-			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
-				doesNotInclude(code, 'exports');
-			});
-    })
-  );
-
-  it('takes a glob as input', () =>
-    makeBundle('test/fixtures/{0,1}.js').then(bundle => {
-			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+  it('takes an array of files as input', () => {
+    return makeBundle(['test/fixtures/0.js', 'test/fixtures/1.js']).then(bundle => {
+      return bundle.generate({ format: 'cjs' }).then(({code}) => {
         includes(code, 'exports.zero = zero;');
-				includes(code, 'exports.one = one;');
-			});
+        includes(code, 'exports.one = one;');
+      });
     })
-  );
+  });
 
-  it('takes an array of globs as input', () =>
-    makeBundle(['test/fixtures/{0,}.js', 'test/fixtures/{1,}.js']).then(bundle => {
-			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+  it('allows an empty array as input', () => {
+    return makeBundle([]).then(bundle => {
+      return bundle.generate({ format: 'cjs' }).then(({code}) => {
+        doesNotInclude(code, 'exports');
+      });
+    })
+  });
+
+  it('takes a glob as input', () => {
+    return makeBundle('test/fixtures/{0,1}.js').then(bundle => {
+      return bundle.generate({ format: 'cjs' }).then(({code}) => {
         includes(code, 'exports.zero = zero;');
-				includes(code, 'exports.one = one;');
-			});
+        includes(code, 'exports.one = one;');
+      });
     })
-  );
+  });
 
-  it('takes an {include,exclude} object as input', () =>
-    makeBundle(
+  it('takes an array of globs as input', () => {
+    return makeBundle(['test/fixtures/{0,}.js', 'test/fixtures/{1,}.js']).then(bundle => {
+      return bundle.generate({ format: 'cjs' }).then(({code}) => {
+        includes(code, 'exports.zero = zero;');
+        includes(code, 'exports.one = one;');
+      });
+    })
+  });
+
+  it('takes an {include,exclude} object as input', () => {
+    return makeBundle(
       { include: ['test/fixtures/*.js'], exclude: ['test/fixtures/1.js'] }
     ).then(bundle => {
-			return bundle.generate({ format: 'cjs' }).then(({ code }) => {
+      return bundle.generate({ format: 'cjs' }).then(({code}) => {
         includes(code, 'exports.zero = zero;');
-				doesNotInclude(code, 'exports.one = one;');
-			});
+        doesNotInclude(code, 'exports.one = one;');
+      });
     })
-  );
+  });
 
-  it('allows to prevent exporting', () =>
-    makeBundle(
+  it('allows to prevent exporting', () => {
+    return makeBundle(
       { include: ['test/fixtures/*.js'], exports: false }
     ).then(bundle => {
-			return bundle.generate({ format: 'iife' }).then(({ code }) => {
+			return bundle.generate({ format: 'cjs' }).then(({code}) => {
         includes(code, `console.log('Hello, 2');`)
         doesNotInclude(code, 'zero');
-				doesNotInclude(code, 'one');
-			});
+        doesNotInclude(code, 'one');
+      });
     })
   );
 
   it('overrides external option as function (fix issue #20)', () =>
-	  makeBundle(['test/externalTest/0.js', 'test/externalTest/1.js'], {
+	  return makeBundle(['test/externalTest/0.js', 'test/externalTest/1.js'], {
 		  external: id => !(/externalTest/.test(id)),
 		  onwarn: (warning) => {
 				throw new Error('This test must not throw warning : ' + warning.message);
@@ -102,7 +102,7 @@ describe('rollup-plugin-multi-entry', () => {
 	);
 	
 	it('overrides external option as array (fix issue #20)', () =>
-		makeBundle(['test/externalTest/0.js', 'test/externalTest/1.js'], {
+		return makeBundle(['test/externalTest/0.js', 'test/externalTest/1.js'], {
 			external: ['external'],
 			onwarn: (warning) => {
 				throw new Error('This test must not throw warning : ' + warning.message);

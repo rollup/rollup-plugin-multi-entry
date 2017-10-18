@@ -4,17 +4,17 @@ import babelrc from 'babelrc-rollup';
 var pkg = require('./package.json');
 
 export default {
-  entry: 'index.js',
+  input: 'index.js',
   plugins: [babel(babelrc())],
   external: Object.keys(pkg['dependencies']).concat('path'),
-  targets: [
+  output: [
     {
       format: 'cjs',
-      dest: pkg['main']
+      file: pkg['main']
     },
     {
       format: 'es',
-      dest: pkg['jsnext:main']
+      file: pkg['jsnext:main']
     }
   ]
 };

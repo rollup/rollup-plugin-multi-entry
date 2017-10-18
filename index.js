@@ -30,11 +30,11 @@ export default function multiEntry(config: ?Config=null) {
   }
 
   return {
-    options(options: { entry: ?string, external: any }) {
-      if (options.entry && options.entry !== entry) {
-        configure(options.entry);
+    options(options: { input: ?string, external: any }) {
+      if (options.input && options.input !== entry) {
+        configure(options.input);
       }
-      options.entry = entry;
+      options.input = entry;
       if(options.external) {
         const external = options.external;
         options.external = (id) => {
