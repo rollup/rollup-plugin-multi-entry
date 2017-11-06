@@ -1,5 +1,5 @@
 {
-  "version": "2.0.1",
+  "version": "0.0.0-development",
   "name": "rollup-plugin-multi-entry",
   "description": "Allows specifying multiple entry points with rollup.",
   "main": "dist/rollup-plugin-multi-entry.js",
