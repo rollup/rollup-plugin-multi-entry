@@ -12,7 +12,10 @@
     "prepublish": "npm test",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
-  "repository": "rollup/rollup-plugin-multi-entry",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rollup/rollup-plugin-multi-entry.git"
+  },
   "keywords": [
     "rollup-plugin"
   ],
