@@ -26,7 +26,7 @@ $ npm install [--save-dev] rollup-plugin-multi-entry
 
 ## Usage
 
-This plugin requires at least v0.25.4 of rollup. In `rollup.config.js`:
+This plugin requires at least v0.48.0 of rollup. In `rollup.config.js`:
 
 ```js
 import multiEntry from 'rollup-plugin-multi-entry';
