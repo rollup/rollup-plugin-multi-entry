@@ -11,7 +11,7 @@ export default {
       babelrc: false
     })
   ],
-  external: Object.keys(pkg['dependencies']).concat('path'),
+  external: Object.keys(pkg['dependencies']),
   output: [
     {
       format: 'cjs',

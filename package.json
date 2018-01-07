@@ -11,8 +11,7 @@
     "test": "mocha",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "precommit": "lint-staged",
-    "prepublish": "yarn test",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "prepublish": "yarn test"
   },
   "lint-staged": {
     "*.js": [
@@ -37,10 +36,11 @@
   },
   "homepage": "https://github.com/rollup/rollup-plugin-multi-entry#readme",
   "dependencies": {
-    "matched": "^0.4.4"
+    "matched": "^1.0.2"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^5.2.3",
+    "babel-core": "^6.26.0",
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.14.0",
@@ -52,8 +52,7 @@
     "mocha": "^4.1.0",
     "prettier": "^1.9.2",
     "prettier-check": "^2.0.0",
-    "rollup": "^0.49.2",
-    "rollup-plugin-babel": "^2.6.1",
-    "semantic-release": "^4.3.5"
+    "rollup": "^0.53.3",
+    "rollup-plugin-babel": "^3.0.3"
   }
 }
