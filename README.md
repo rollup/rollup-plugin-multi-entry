@@ -1,5 +1,3 @@
-
-
 # rollup-plugin-multi-entry
 
 Use multiple entry points in your [rollup](https://github.com/rollup/rollup)
@@ -20,7 +18,7 @@ export const c = 3;
 Using all three files above as entry points will yield a bundle with exports for
 `a`, `b`, and `c`.
 
-*Notice*: Default exports like `export default class Foo{...}` will not be exported, only named exports are allowed.
+> *Note*: Default exports like `export default class Foo {...}` will not be exported, only named exports are allowed.
 
 ## Install
 
