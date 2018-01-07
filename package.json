@@ -7,9 +7,9 @@
   "scripts": {
     "flow": "flow check",
     "build": "rm -rf dist && rollup -c",
-    "pretest": "npm run flow && npm run build",
+    "pretest": "yarn run flow && yarn run build",
     "test": "mocha",
-    "prepublish": "npm test",
+    "prepublish": "yarn test",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
