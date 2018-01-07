@@ -7,6 +7,10 @@ node_js:
   - '8'
   - '6'
   - '4'
+script:
+  - ./script/lint-commits
+  - ./script/prettier-check
+  - yarn test
 after_success:
   - 'curl -Lo travis_after_all.py https://git.io/travis_after_all'
   - python travis_after_all.py
