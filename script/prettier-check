@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const globby = require('globby');
+const join = require('path').join;
+const check = require('prettier-check');
+
+let pathsPromise = globby(
+  ['src/**/*.js', 'test/**/*.js', '!test/fixtures/**/*.js'],
+  {
+    cwd: join(__dirname, '..'),
+    gitignore: true
+  }
+);
+
+pathsPromise
+  .then(paths => check(paths))
+  .then(status => process.exit(status))
+  .catch(error => {
+    console.error(error.stack);
+    process.exit(1);
+  });

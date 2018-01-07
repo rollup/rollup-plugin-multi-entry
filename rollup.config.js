@@ -3,7 +3,7 @@ import babel from 'rollup-plugin-babel';
 var pkg = require('./package.json');
 
 export default {
-  input: 'index.js',
+  input: 'src/index.js',
   plugins: [
     babel({
       presets: [['env', { targets: { node: '4' }, modules: false }]],
