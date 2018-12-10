@@ -9,15 +9,7 @@
     "build": "rm -rf dist && rollup -c",
     "pretest": "yarn run flow && yarn run build",
     "test": "mocha",
-    "commitmsg": "commitlint -e $GIT_PARAMS",
-    "precommit": "lint-staged",
     "prepublish": "yarn test"
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ]
   },
   "repository": {
     "type": "git",
@@ -36,23 +28,23 @@
   },
   "homepage": "https://github.com/rollup/rollup-plugin-multi-entry#readme",
   "dependencies": {
-    "matched": "^1.0.2"
+    "matched": "^3.0.1"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^5.2.3",
-    "babel-core": "^6.26.0",
-    "babel-plugin-transform-flow-strip-types": "^6.14.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-register": "^6.14.0",
-    "commitlint": "^5.2.8",
-    "flow-bin": "0.63.1",
-    "globby": "^7.1.1",
-    "husky": "^0.14.3",
-    "lint-staged": "^6.0.0",
-    "mocha": "^4.1.0",
+    "@babel/core": "^7.2.0",
+    "@babel/plugin-transform-flow-strip-types": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/register": "^7.0.0",
+    "@commitlint/config-conventional": "^7.1.2",
+    "commitlint": "^7.2.1",
+    "flow-bin": "^0.87.0",
+    "globby": "^8.0.1",
+    "husky": "^1.2.0",
+    "lint-staged": "^8.1.0",
+    "mocha": "^5.2.0",
     "prettier": "^1.9.2",
     "prettier-check": "^2.0.0",
-    "rollup": "^0.53.3",
-    "rollup-plugin-babel": "^3.0.3"
+    "rollup": "^0.67.4",
+    "rollup-plugin-babel": "^4.0.3"
   }
 }

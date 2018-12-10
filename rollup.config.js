@@ -6,8 +6,8 @@ export default {
   input: 'src/index.js',
   plugins: [
     babel({
-      presets: [['env', { targets: { node: '4' }, modules: false }]],
-      plugins: ['transform-flow-strip-types'],
+      presets: [['@babel/env', { targets: { node: '4' }, modules: false }]],
+      plugins: ['@babel/transform-flow-strip-types'],
       babelrc: false
     })
   ],
