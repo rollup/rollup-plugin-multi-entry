@@ -9,7 +9,8 @@
     "build": "rm -rf dist && rollup -c",
     "pretest": "yarn run flow && yarn run build",
     "test": "mocha",
-    "prepublish": "yarn test"
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn test"
   },
   "repository": {
     "type": "git",
