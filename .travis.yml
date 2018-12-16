@@ -2,9 +2,9 @@ sudo: false
 language: node_js
 cache: yarn
 node_js:
+  - '10'
   - '8'
   - '6'
-  - '4'
 script:
   - ./script/lint-commits
   - ./script/prettier-check
