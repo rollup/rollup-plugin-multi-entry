@@ -6,6 +6,7 @@ type Config =
   | { include?: Array<string>, exclude?: Array<string>, exports?: boolean };
 
 import { promise as matched } from 'matched';
+import fs from 'fs';
 
 const entry = '\0rollup-plugin-multi-entry:entry-point';
 
@@ -13,6 +14,8 @@ export default function multiEntry(config: ?Config = null) {
   let include = [];
   let exclude = [];
   let exporter = path => `export * from ${JSON.stringify(path)};`;
+  let defaultExporter = path =>
+    `export {default} from ${JSON.stringify(path)};`;
 
   function configure(config: Config) {
     if (typeof config === 'string') {
@@ -52,9 +55,18 @@ export default function multiEntry(config: ?Config = null) {
           return Promise.resolve('');
         }
         const patterns = include.concat(exclude.map(pattern => '!' + pattern));
-        return matched(patterns, { realpath: true }).then(paths =>
-          paths.map(exporter).join('\n')
-        );
+        return matched(patterns, { realpath: true }).then(paths => {
+          // real hacky way to check if there's a default export
+          let stmts: string[] = [];
+          for (const path of paths) {
+            const f = fs.readFileSync(path);
+            if (/^export default /m.test(f.toString())) {
+              stmts.push(defaultExporter(path));
+            }
+            stmts.push(exporter(path));
+          }
+          return stmts.join('\n');
+        });
       }
     }
   };
