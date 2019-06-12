@@ -36,16 +36,16 @@
     "@babel/plugin-transform-flow-strip-types": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/register": "^7.0.0",
-    "@commitlint/config-conventional": "^7.1.2",
-    "commitlint": "^7.2.1",
-    "flow-bin": "^0.87.0",
-    "globby": "^8.0.1",
-    "husky": "^1.2.0",
+    "@commitlint/config-conventional": "^8.0.0",
+    "commitlint": "^8.0.0",
+    "flow-bin": "^0.101.0",
+    "globby": "^9.2.0",
+    "husky": "^2.4.1",
     "lint-staged": "^8.1.0",
-    "mocha": "^5.2.0",
+    "mocha": "^6.1.4",
     "prettier": "^1.9.2",
     "prettier-check": "^2.0.0",
-    "rollup": "^0.67.4",
+    "rollup": "^1.15.1",
     "rollup-plugin-babel": "^4.0.3"
   }
 }
