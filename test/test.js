@@ -92,4 +92,12 @@ describe('rollup-plugin-multi-entry', () => {
       doesNotInclude(code, 'zero');
       doesNotInclude(code, 'one');
     }));
+
+  it('allows exporting all default exports as an array', () =>
+    getModuleFromBundle({
+      include: ['test/fixtures/default-*.js'],
+      exports: 'array'
+    }).then(moduleExports => {
+      deepStrictEqual(moduleExports, [0, 1]);
+    }));
 });

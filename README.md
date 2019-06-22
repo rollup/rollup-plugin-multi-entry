@@ -18,7 +18,8 @@ export const c = 3;
 Using all three files above as entry points will yield a bundle with exports for
 `a`, `b`, and `c`.
 
-> _Note_: Default exports like `export default class Foo {...}` will not be exported, only named exports are allowed.
+> _Note_: Only named exports are allowed. Default exports like `export default class Foo {...}`
+> will not be exported unless you use the `exports: 'array'` option.
 
 ## Install
 
@@ -87,6 +88,19 @@ such cases, use the `exports: false` option like so:
 export default {
   input: "src/*.js",
   plugins: [multiEntry({ exports: false })]
+};
+```
+
+If you want to create an array of values from the default exports of each
+source module, use the `exports: 'array'` option. This array will be assigned
+to the default export of the bundled module. When using this option, all
+source modules _must_ have a default export or else a compiler error will
+be emitted. Example:
+
+```js
+export default {
+  input: "src/*.js",
+  plugins: [multiEntry({ exports: 'array' })]
 };
 ```
 
