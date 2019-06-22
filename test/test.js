@@ -1,6 +1,10 @@
-import { ok } from 'assert';
+import { join as joinPaths } from 'path';
+import { ok, deepStrictEqual } from 'assert';
 import { rollup } from 'rollup';
 import multiEntry from '../';
+
+const TMP_DIR = joinPaths(__dirname, '../tmp');
+let tmpModuleGuid = 0;
 
 function includes(string, substring) {
   if (string.indexOf(substring) === -1) {
@@ -32,41 +36,48 @@ function getCodeFromBundle(entries) {
     );
 }
 
+function getModuleFromBundle(entries) {
+  let outputPath = joinPaths(TMP_DIR, 'module' + tmpModuleGuid++ + '.js');
+
+  return rollup({ input: entries, plugins: [multiEntry()] })
+    .then(bundle => bundle.write({ format: 'cjs', file: outputPath }))
+    .then(() => require(outputPath));
+}
+
 describe('rollup-plugin-multi-entry', () => {
   it('takes a single file as input', () =>
-    getCodeFromBundle('test/fixtures/0.js').then(code =>
-      includes(code, 'exports.zero = zero;')
-    ));
+    getModuleFromBundle('test/fixtures/named-0.js').then(moduleExports => {
+      deepStrictEqual(moduleExports, { zero: 0 });
+    }));
 
   it('takes an array of files as input', () =>
-    getCodeFromBundle(['test/fixtures/0.js', 'test/fixtures/1.js']).then(
-      code => {
-        includes(code, 'exports.zero = zero;');
-        includes(code, 'exports.one = one;');
-      }
-    ));
+    getModuleFromBundle([
+      'test/fixtures/named-0.js',
+      'test/fixtures/named-1.js'
+    ]).then(moduleExports => {
+      deepStrictEqual(moduleExports, { zero: 0, one: 1 });
+    }));
 
   it('allows an empty array as input', () =>
     getCodeFromBundle([]).then(code => doesNotInclude(code, 'exports')));
 
   it('takes a glob as input', () =>
-    getCodeFromBundle('test/fixtures/{0,1}.js').then(code => {
-      includes(code, 'exports.zero = zero;');
-      includes(code, 'exports.one = one;');
+    getModuleFromBundle('test/fixtures/named-{0,1}.js').then(moduleExports => {
+      deepStrictEqual(moduleExports, { zero: 0, one: 1 });
     }));
 
   it('takes an array of globs as input', () =>
-    getCodeFromBundle(['test/fixtures/{0,}.js', 'test/fixtures/{1,}.js']).then(
-      code => {
-        includes(code, 'exports.zero = zero;');
-        includes(code, 'exports.one = one;');
-      }
-    ));
+    getModuleFromBundle([
+      'test/fixtures/named-{0,}.js',
+      'test/fixtures/named-{1,}.js'
+    ]).then(moduleExports => {
+      deepStrictEqual(moduleExports, { zero: 0, one: 1 });
+    }));
 
   it('takes an {include,exclude} object as input', () =>
     getCodeFromBundle({
-      include: ['test/fixtures/*.js'],
-      exclude: ['test/fixtures/1.js']
+      include: ['test/fixtures/named-*.js'],
+      exclude: ['test/fixtures/named-1.js']
     }).then(code => {
       includes(code, 'exports.zero = zero;');
       doesNotInclude(code, 'exports.one = one;');
@@ -74,7 +85,7 @@ describe('rollup-plugin-multi-entry', () => {
 
   it('allows to prevent exporting', () =>
     getCodeFromBundle({
-      include: ['test/fixtures/*.js'],
+      include: ['test/fixtures/named-*.js', 'test/fixtures/sideeffect.js'],
       exports: false
     }).then(code => {
       includes(code, `console.log('Hello, 2');`);
