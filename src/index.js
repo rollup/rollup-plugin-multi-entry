@@ -12,7 +12,7 @@ const entry = '\0rollup-plugin-multi-entry:entry-point';
 export default function multiEntry(config: ?Config = null) {
   let include = [];
   let exclude = [];
-  let exporter = path => `export * from ${JSON.stringify(path)};`;
+  let exporter = buildNamedExports;
 
   function configure(config: Config) {
     if (typeof config === 'string') {
@@ -23,7 +23,9 @@ export default function multiEntry(config: ?Config = null) {
       include = config.include || [];
       exclude = config.exclude || [];
       if (config.exports === false) {
-        exporter = path => `import ${JSON.stringify(path)};`;
+        exporter = buildEmptyExports;
+      } else if (config.exports === 'array') {
+        exporter = buildArrayExports;
       }
     }
   }
@@ -53,9 +55,29 @@ export default function multiEntry(config: ?Config = null) {
         }
         const patterns = include.concat(exclude.map(pattern => '!' + pattern));
         return matched(patterns, { realpath: true }).then(paths =>
-          paths.map(exporter).join('\n')
+          exporter(paths)
         );
       }
     }
   };
+}
+
+function buildNamedExports(paths) {
+  return paths.map(path => `export * from ${JSON.stringify(path)};`).join('\n');
+}
+
+function buildEmptyExports(paths) {
+  return paths.map(path => `import ${JSON.stringify(path)};`).join('\n');
+}
+
+function buildArrayExports(paths) {
+  return (
+    paths
+      .map((path, index) => `import _m${index} from ${JSON.stringify(path)}`)
+      .join(';\n') +
+    ';\n' +
+    'export default [\n' +
+    paths.map((path, index) => `_m${index}`).join(', ') +
+    '\n];\n'
+  );
 }
