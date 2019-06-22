@@ -6,7 +6,7 @@
   "jsnext:main": "dist/rollup-plugin-multi-entry.mjs",
   "scripts": {
     "flow": "flow check",
-    "build": "rm -rf dist && rollup -c",
+    "build": "rm -rf tmp dist && rollup -c",
     "pretest": "npm run flow && npm run build",
     "test": "mocha",
     "prepare": "npm run build",
