@@ -7,10 +7,10 @@
   "scripts": {
     "flow": "flow check",
     "build": "rm -rf dist && rollup -c",
-    "pretest": "yarn run flow && yarn run build",
+    "pretest": "npm run flow && npm run build",
     "test": "mocha",
-    "prepare": "yarn build",
-    "prepublishOnly": "yarn test"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test"
   },
   "repository": {
     "type": "git",
