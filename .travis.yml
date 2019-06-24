@@ -1,6 +1,5 @@
 sudo: false
 language: node_js
-cache: yarn
 node_js:
   - '10'
   - '8'
@@ -8,7 +7,7 @@ node_js:
 script:
   - ./script/lint-commits
   - ./script/prettier-check
-  - yarn test
+  - npm test
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
@@ -18,5 +17,4 @@ jobs:
       node_js: '8'
       script:
         - echo "Deploying to npm…"
-        - yarn add --dev semantic-release
-        - yarn semantic-release
+        - npx semantic-release
