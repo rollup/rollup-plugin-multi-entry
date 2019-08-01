@@ -54,9 +54,10 @@ export default function multiEntry(config: ?Config = null) {
           return Promise.resolve('');
         }
         const patterns = include.concat(exclude.map(pattern => '!' + pattern));
-        return matched(patterns, { realpath: true }).then(paths =>
-          exporter(paths)
-        );
+        return matched(patterns, { realpath: true }).then(paths => {
+          paths.sort(); // in case the order returned by matched is unpredictable
+          return exporter(paths);
+        });
       }
     }
   };

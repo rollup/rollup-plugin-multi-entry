@@ -101,14 +101,11 @@ describe('rollup-plugin-multi-entry', () => {
       deepStrictEqual(moduleExports, [0, 1]);
     }));
 
-  it('exports array with same inputted glob order', () =>
+  it('exports array entries in sorted order', () =>
     getModuleFromBundle({
-      include: [
-        'test/fixtures/default-{1,}.js',
-        'test/fixtures/default-{0,}.js'
-      ],
+      include: ['test/fixtures/default-1.js', 'test/fixtures/default-0.js'],
       exports: 'array'
     }).then(moduleExports => {
-      deepStrictEqual(moduleExports, [1, 0]);
+      deepStrictEqual(moduleExports, [0, 1]);
     }));
 });
