@@ -24,10 +24,10 @@ Using all three files above as entry points will yield a bundle with exports for
 ## Install
 
 ```shell
-# We use yarn:
-$ yarn add [--dev] rollup-plugin-multi-entry
-# But you can use npm if you prefer:
+# Install via npm:
 $ npm install [--save-dev] rollup-plugin-multi-entry
+# Or use yarn:
+$ yarn add [--dev] rollup-plugin-multi-entry
 ```
 
 ## Usage
