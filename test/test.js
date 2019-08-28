@@ -106,6 +106,6 @@ describe('rollup-plugin-multi-entry', () => {
       include: ['test/fixtures/default-1.js', 'test/fixtures/default-0.js'],
       exports: 'array'
     }).then(moduleExports => {
-      deepStrictEqual(moduleExports, [0, 1]);
+      deepStrictEqual(moduleExports, [1, 0]);
     }));
 });
