@@ -18,21 +18,26 @@ export const c = 3;
 Using all three files above as entry points will yield a bundle with exports for
 `a`, `b`, and `c`.
 
+> _Note_: Default exports like `export default class Foo {...}` will not be exported, only named exports are allowed.
+
 ## Install
 
-```
+```shell
+# Install via npm:
 $ npm install [--save-dev] rollup-plugin-multi-entry
+# Or use yarn:
+$ yarn add [--dev] rollup-plugin-multi-entry
 ```
 
 ## Usage
 
-This plugin requires at least v0.25.4 of rollup. In `rollup.config.js`:
+This plugin requires at least v0.48.0 of rollup. In `rollup.config.js`:
 
 ```js
-import multiEntry from 'rollup-plugin-multi-entry';
+import multiEntry from "rollup-plugin-multi-entry";
 
 export default {
-  input: 'test/**/*.js',
+  input: "test/**/*.js",
   plugins: [multiEntry()]
 };
 ```
@@ -80,7 +85,7 @@ such cases, use the `exports: false` option like so:
 
 ```js
 export default {
-  input: 'src/*.js',
+  input: "src/*.js",
   plugins: [multiEntry({ exports: false })]
 };
 ```

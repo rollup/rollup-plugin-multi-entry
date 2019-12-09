@@ -1,12 +1,15 @@
 /* @flow */
 
-type Config = string | Array<string> | { include?: Array<string>, exclude?: Array<string>, exports?: boolean };
+type Config =
+  | string
+  | Array<string>
+  | { include?: Array<string>, exclude?: Array<string>, exports?: boolean };
 
 import { promise as matched } from 'matched';
 
 const entry = '\0rollup-plugin-multi-entry:entry-point';
 
-export default function multiEntry(config: ?Config=null) {
+export default function multiEntry(config: ?Config = null) {
   let include = [];
   let exclude = [];
   let exporter = path => `export * from ${JSON.stringify(path)};`;
@@ -35,17 +38,17 @@ export default function multiEntry(config: ?Config=null) {
         configure(options.input);
       }
       options.input = entry;
-      if(options.external) {
+      if (options.external) {
         const external = options.external;
-        options.external = (id) => {
-          if(id === entry) {
+        options.external = id => {
+          if (id === entry) {
             return false;
-          } else if(typeof external === 'function') {
+          } else if (typeof external === 'function') {
             return external(id);
-          }	else if(external instanceof Array) {
-            return external.indexOf(id) !== -1
-		      }
-	      };
+          } else if (external instanceof Array) {
+            return external.indexOf(id) !== -1;
+          }
+        };
       }
     },
 
@@ -61,8 +64,10 @@ export default function multiEntry(config: ?Config=null) {
           return Promise.resolve('');
         }
         const patterns = include.concat(exclude.map(pattern => '!' + pattern));
-        return matched(patterns, { realpath: true }).then(paths => paths.map(exporter).join('\n'));
+        return matched(patterns, { realpath: true }).then(paths =>
+          paths.map(exporter).join('\n')
+        );
       }
     }
-  }
+  };
 }

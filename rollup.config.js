@@ -1,12 +1,17 @@
 import babel from 'rollup-plugin-babel';
-import babelrc from 'babelrc-rollup';
 
 var pkg = require('./package.json');
 
 export default {
-  input: 'index.js',
-  plugins: [babel(babelrc())],
-  external: Object.keys(pkg['dependencies']).concat('path'),
+  input: 'src/index.js',
+  plugins: [
+    babel({
+      presets: [['@babel/env', { targets: { node: '4' }, modules: false }]],
+      plugins: ['@babel/transform-flow-strip-types'],
+      babelrc: false
+    })
+  ],
+  external: Object.keys(pkg['dependencies']),
   output: [
     {
       format: 'cjs',
