@@ -1,3 +1,7 @@
+# Moving
+
+We're moving this plugin to a new home. Please stand by...
+
 # rollup-plugin-multi-entry
 
 Use multiple entry points in your [rollup](https://github.com/rollup/rollup)
